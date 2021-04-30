@@ -24,11 +24,9 @@ if (!exists("mytheme")) {
 
 
 treedat <- accelerometer.data
-#treedat <- completedata
-source("R/rename_activities.R")
+source("rename_activities.R")
 treedat <- rename_activities(treedat)
 treedat$ACTIVITY <- factor(treedat$ACTIVITY)
-#treedat <- treedat[treedat$ACTIVITY %in% c("Folding","Clapping","Writing"),]
 treedat <- treedat[treedat$ACTIVITY %in% c("Folding clothes","Brushing teeth"),]
 treedat$ACTIVITY <- droplevels(treedat$ACTIVITY)
 
@@ -87,13 +85,7 @@ plotdec <- function(model, treedat, C) {
   
   # support vectors
   svdat<-treedat[svm.model$index, ]# show the support vectors
-  # print(svdat)
-  
-  # pl <- ggplot()+
-  #    geom_point(data=grd,aes(x=XAVG,y=YVAR,col=ACTIVITY))+
-  #    geom_point(shape=21,size=3,col="black", data=treedat,aes(x=XAVG,y=YVAR,fill=ACTIVITY))+
-  #    geom_point(data=svdat,size=3,col="black", fill="black", shape=21,aes(x=XAVG,y=YVAR,fill=ACTIVITY))
-  
+
   pl <- ggplot()+
     # data grid
     geom_point(data=grd,aes_string(x=xvar.name,y=yvar.name,col="ACTIVITY"))+

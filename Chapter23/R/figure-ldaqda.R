@@ -7,7 +7,7 @@ if (!exists("mytheme")) {
 
 treedat <- accelerometer.data
 
-source("R/rename_activities.R")
+source("rename_activities.R")
 treedat <- rename_activities(treedat)
 
 #treedat <- completedata
