@@ -1,6 +1,8 @@
 set.seed(123)
 
 library(ggplot2)
+library(viridis)
+library(ggsci)
 
 if (!exists("mytheme")) {
   mytheme <- geom_blank()
@@ -12,7 +14,6 @@ sim <- function(N=100,p=5) {
   Xnew <- matrix(rnorm(N*p),nrow=N)
   y <- sample( c(0,1),size=N,replace=TRUE)
   ynew <- sample( c(0,1),size=N,replace=TRUE)
- # y<-factor(y)
   dat <- data.frame(cbind(y=y,X))
   datnew<-data.frame(Xnew)
   names(datnew) <- names(dat)[-1]
@@ -51,8 +52,7 @@ pl <- ggplot(data=df,aes(x=x,fill=grp,group=grp))+
   geom_density(alpha=.7,n=100,adjust=2)+#+geom_histogram()
   xlab("Accuracy")+ylab("Density")+ mytheme
 
-library(viridis)
-library(ggsci)
+
 
 pl <- ggplot(data=df,aes(x=x,fill=Selection,group=grp,linetype=Estimation))+
   geom_density(alpha=.7,n=100,adjust=2)+#+geom_histogram()

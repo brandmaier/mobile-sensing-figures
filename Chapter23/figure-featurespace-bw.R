@@ -1,7 +1,7 @@
 library(ggplot2)
 
 if (!exists("accelerometer.data"))
-  accelerometer.data <- read.csv("data/accelerometer-all.dat")
+  accelerometer.data <- read.csv("../data/accelerometer-all.dat")
 
 if (!exists("mytheme"))
   mytheme <- geom_blank()

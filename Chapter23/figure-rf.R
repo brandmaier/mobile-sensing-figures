@@ -23,7 +23,3 @@ par(mfrow=c(1,2))
 barplot(sort(vim),horiz=TRUE,las=1, main="Marginal")
 barplot(sort(vim.cond),horiz=TRUE,las=1, main="Conditional")
 
-
-# maybe recode as ggplot2 ?!
-#df<- data.frame(nms=names(vim),val=vim)
-#ggplot(df,aes(x=val,group=nms))+geom_bar()

@@ -3,7 +3,7 @@ library("gridExtra")
 if (!exists("mytheme")) mytheme <- theme_light()
 
 if (!exists("accelerometer.data"))
-  accelerometer.data <- read.csv("data/accelerometer-all.dat")
+  accelerometer.data <- read.csv("../data/accelerometer-all.dat")
 
 kdata <- accelerometer.data
 kdata$ACTIVITY <- as.character(kdata$ACTIVITY)
@@ -14,9 +14,6 @@ kdata$ACTIVITY <- factor(kdata$ACTIVITY)
 
 
 completedata <- kdata
-#knn.k1 <- knn3(ACTIVITY ~XAVG+ZAVG, data=kdata)
-#knn.k3 <- knn3(ACTIVITY ~XAVG+ZAVG, data=kdata)
-#knn.k15 <- knn3(ACTIVITY ~XAVG+ZAVG, data=kdata)
 
 knnplot<-function(k=3) {
   set.seed(234)
@@ -46,7 +43,7 @@ knnplot<-function(k=3) {
   contour(px1, px2, prob15, levels=0.5, labels="", xlab="", ylab="", main=
             paste0(k,"-nearest neighbour"), axes=TRUE)
   points(x, col=ifelse(g==cl, "coral", "cornflowerblue")) # plot original points
-  #gd <- expand.grid(x=px1, y=px2)
+ 
   points(xgrid, pch=".", cex=1.2,
          col=ifelse(prob15>0.5, "coral", "cornflowerblue"))
   box()
@@ -56,13 +53,9 @@ knnplot<-function(k=3) {
   dfg$fillcol <- c("blue","red")[dfg$prob+1]
   gp <- ggplot()+
 
-    #           xlab("Abs. Dev. X")+ylab("Avg Z")+
     xlab("Absolute deviation of sensor's x-axis")+
     ylab("Average of sensor's z-axis")+
-    #stat_contour(geom="polygon",aes(fill=stat(prob))) +
-    #scale_fill_distiller(palette = "Spectral", direction = -1)+
-    #metR::geom_contour_fill(data=dfg,aes(x=x,y=y,z=prob,fill=prob,col=NULL),breaks=.5)+
-  #  metR::geom_contour_fill(data=dfg,aes(x=x,y=y,z=prob))+
+ 
     geom_contour(data=dfg,aes(x=x,y=y,z=prob,col=NULL),
                  breaks=.5,color="black",lwd=.5)+
    # stat_contour(data=dfg,geom="polygon",aes(x=x,y=y,z=prob,fill=stat(level)))+
@@ -73,14 +66,10 @@ knnplot<-function(k=3) {
                    fill=Activity),size=3)+
     scale_fill_manual(name="Activity",values=c("white","black"))+
     scale_shape_manual(values=c(1,21))+
-#    scale_color_manual(name="Activity", values=c(1,21))+
-   # stat_contour(geom="polygon", aes(fill=..prob..)) +
-   # scale_colour_distiller(palette = "YlGn", direction = 1)+
-  #geom_bin2d(bins=30,data=cbind(xgrid,prob=as.numeric(prob>=.5)),aes(x=x,y=y,z=prob,col=NULL))
+
     ggtitle(paste0("k=",k))+
   mytheme+
     theme(text=element_text(size=16))
-    #theme(legend.position = 'none') # to make "collect work
   NULL
   return(gp)
 }
