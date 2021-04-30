@@ -12,4 +12,4 @@ figures in Chapters 23 and Chapters 25 to be published in Mehl, Eid, Wrzus, Hara
 Here is an example of a support vector machine to classify activities based
 on accelerometer data (Chapter 23):
 
-[https://raw.githubusercontent.com/brandmaier/mobile-sensing-figures/main/Chapter23/figures/figure8-figsvm-1.png](https://raw.githubusercontent.com/brandmaier/mobile-sensing-figures/main/Chapter23/figures/figure8-figsvm-1.png)
+![https://raw.githubusercontent.com/brandmaier/mobile-sensing-figures/main/Chapter23/figures/figure8-figsvm-1.png](https://raw.githubusercontent.com/brandmaier/mobile-sensing-figures/main/Chapter23/figures/figure8-figsvm-1.png)
