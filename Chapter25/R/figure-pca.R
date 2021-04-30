@@ -7,23 +7,13 @@ head(accelerometer.data)
 
 unique(accelerometer.data$ACTIVITY)
 
-#idxs <- c(32:40,65:92)
+# features
 idxs <- 32:40
 
-#idxs <- 40:80
-#idxs <- 32:45
 
-#selector<- c("Walking","Catch","Eating Soup","Standing")
 selector <- c("Walking","Jogging","Sitting","Standing","Brushing","Clapping")
-#selector <- c("Walking","Jogging","Sitting","Standing","Brushing","Clapping","Eating Soup","Drinking")
 
-#walking.data <- accelerometer.data[accelerometer.data$ACTIVITY=="Walking",idxs]
 
-#walking.data <- accelerometer.data[accelerometer.data$ACTIVITY=="Catch",idxs]
-#walking.data <- accelerometer.data[accelerometer.data$ACTIVITY=="Jogging",idxs]
-
-#soup.data <- accelerometer.data[accelerometer.data$ACTIVITY=="Eating Soup",idxs]
-#brush.data <- accelerometer.data[accelerometer.data$ACTIVITY=="Brushing",idxs]
 my.dat <- accelerometer.data[accelerometer.data$ACTIVITY %in% selector, idxs]
 labels <- accelerometer.data$ACTIVITY[accelerometer.data$ACTIVITY %in% selector]
 labels <- as.factor(as.character(labels))
@@ -45,14 +35,20 @@ dims <- length(idxs)
 #
 eg <- stats::prcomp(my.dat)
 library(ggbiplot)
-g2 <- ggbiplot(eg)+theme_minimal()+geom_point(aes(color=labels))
+g2 <- ggbiplot(eg,alpha=0)+theme_minimal()+
+  geom_point(size=3,aes(shape=labels))+
+  xlim(-2,2.8)+
+  scale_shape(name="Activities")+guides(color=FALSE)+
+  scale_color_grey()
 
 #
 # compute ICA
 #
 egica <- ica::icaimax(my.dat,2)
 egica <- ica::icafast(my.dat, nc=2)
-g3 <- ggplot(data.frame(egica$S,labels))+geom_point(aes(x=X1,y=X2,col=labels))+theme_minimal()
+g3 <- ggplot(data.frame(egica$S,labels))+
+  geom_point(aes(x=X1,y=X2,col=labels,shape=labels))+
+  theme_minimal()
 
 plot(g2)
 

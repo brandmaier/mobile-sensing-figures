@@ -1,19 +1,19 @@
-path <- "~/Downloads/wisdm-dataset/raw/watch/accel/data_1600_accel_watch.txt"
+path <- "../data/wisdm-dataset/raw/watch/accel/data_1600_accel_watch.txt"
 dat <- readr::read_csv(path,comment=";")
 names(dat) <- c("Participant","Activity","Timestamp","X","Y","Z")
 
 head(dat)
 
 
-library(tidyverse)
+library(dplyr)
 
-subs <- dat %>% select("X","Timestamp","Activity")
+subs <- dat %>% dplyr::select("X","Timestamp","Activity")
 subs$Timestamp
 
 
 dat %>% group_by(Activity) %>% summarize( min=min(Timestamp))
 
-pdcmat <- spread(subs, Activity,X) %>% select(-Timestamp)
+pdcmat <- spread(subs, Activity,X) %>% dplyr::select(-Timestamp)
 
 library(pdc)
 
