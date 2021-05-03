@@ -2,7 +2,7 @@
 # devtools::install_github("vqv/ggbiplot")
 #
 
-accelerometer.data <- read.csv("/Users/brandmaier/Documents/Manuscripts/Brandmaier-Machine-Learning-Chapter/machine-learning-chapter/Chapter25/data/accelerometer-all.dat")
+accelerometer.data <- read.csv("../data/accelerometer-all.dat")
 head(accelerometer.data)
 
 unique(accelerometer.data$ACTIVITY)
@@ -16,6 +16,10 @@ selector <- c("Walking","Jogging","Sitting","Standing","Brushing","Clapping")
 
 my.dat <- accelerometer.data[accelerometer.data$ACTIVITY %in% selector, idxs]
 labels <- accelerometer.data$ACTIVITY[accelerometer.data$ACTIVITY %in% selector]
+
+labels[which(labels %in% "Clapping")] <- "Clapping hands"
+labels[which(labels %in% "Brushing")] <- "Brushing teeth"
+
 labels <- as.factor(as.character(labels))
 #my.dat <- rbind(walking.data, soup.data, brush.data)
 #labels <- c(rep("Walk",nrow(walking.data)),rep("Soup",nrow(soup.data)), rep("Brush",nrow(brush.data))  )
