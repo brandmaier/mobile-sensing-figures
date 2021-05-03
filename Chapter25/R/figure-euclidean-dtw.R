@@ -20,7 +20,8 @@ dfv <- data.frame(x=x,xend=x,y=y,yend=y2)
 library(ggplot2)
 g1 <- ggplot(df, aes(x=x,y=y))+geom_line()+geom_line(df,mapping=aes(x=x,y=y2))+
 geom_segment(dfv,mapping=aes(x=x,y=y,xend=xend,yend=yend),col="gray")+
-theme_minimal()
+  xlab("Time")+ylab("Value")+
+theme_classic()
 
 
 # DTW
@@ -29,7 +30,8 @@ dfv <- data.frame(x=x[idx2],xend=x,y=y[idx2],yend=y2)
 library(ggplot2)
 g2 <- ggplot(df, aes(x=x,y=y))+geom_line()+geom_line(df,mapping=aes(x=x,y=y2))+
   geom_segment(dfv,mapping=aes(x=x,y=y,xend=xend,yend=yend),col="gray")+
-  theme_minimal()
+  xlab("Time")+ylab("Value")+
+  theme_classic()
 
 # arrange layout
 library(patchwork)
