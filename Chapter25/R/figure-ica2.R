@@ -1,18 +1,19 @@
 library(ica)
+library(tidyverse)
 
-path <- "~/Downloads/wisdm-dataset/raw/watch/accel/data_1600_accel_watch.txt"
+path <- "../data/wisdm-dataset/raw/watch/accel/data_1600_accel_watch.txt"
 dat <- readr::read_csv(path,comment=";")
 names(dat) <- c("Participant","Activity","Timestamp","X","Y","Z")
 
-path <- "~/Downloads/wisdm-dataset/raw/watch/gyro/data_1600_gyro_watch.txt"
+path <- "../data/wisdm-dataset/raw/watch/gyro/data_1600_gyro_watch.txt"
 dat2 <- readr::read_csv(path,comment=";")
 names(dat2) <- c("Participant","Activity","Timestamp","X","Y","Z")
 
 
-start_time <- 0
-end_time <- 100
+start_time <- 1000
+end_time <- 2000
 
-head(dat)
+#head(dat)
 
 #dat <- dat[1:1000,]
 
@@ -25,11 +26,15 @@ plotdat <- subdat %>% mutate(Time=1:nrow(dat),R1= res$Y[,1], R2=res$Y[,2])
 library(ggplot2)
 
 n <- nrow(dat)
-noise1 <- seq(1:n)%%100 
-noise2 <- sin((1:n)*.001)^2 
+#noise1 <- seq(1:n)%%100 
+#noise2 <- sin((1:n)*.001)^2 
+#noise3 <- (10-(1:n)%%20)^2
+noise1 <- ica::icasamp("e","rnd",nsamp=n)
+noise2 <- ica::icasamp("a","rnd",nsamp=n)
+noise3 <- ica::icasamp("g","rnd",nsamp=n)
 signal <- dat$X / max(dat$X) 
 
-noise3 <- (10-(1:n)%%20)^2
+
 
 noise1 <- scale(noise1)
 noise2 <- scale(noise2)

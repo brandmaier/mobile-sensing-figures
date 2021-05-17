@@ -1,50 +1,43 @@
 library(kernlab)
-
 library(tidyverse)
 
-#unique(accelerometer.data$ACTIVITY)
 
 if (!exists("acdat")) {
   accelerometer.data <- read.csv("data/accelerometer-all.dat")
 }
 
-acdat <- accelerometer.data[accelerometer.data$ACTIVITY %in% c("Walking","Sitting","Standing", "Eating Soup","Dribbling","Writing"),]
+acdat <- accelerometer.data[accelerometer.data$ACTIVITY %in% 
+                              c("Walking","Sitting","Standing", "Eating Soup","Dribbling","Writing"),]
 
 acdat$ACTIVITY <- as.factor(as.character(acdat$ACTIVITY))
 
-#kpc <- kpca(~.,data=acdat[,1:5])
 set.seed(234)
-train <- sample(1:450,200)
-test <- sample(1:450,20)
+train <- sample(1:nrow(acdat),200)
+#train <- 1:nrow(acdat)
+#test <- sample(1:450,20)
 ids <- 32:42
 
-
-
-#print the principal component vectors
-#pcv(kpc)
-
-#plot the data projection on the components
-#plot(rotated(kpc),col=as.integer(as.factor(acdat[train,]$ACTIVITY)),
-#     xlab="1st Principal Component",ylab="2nd Principal Component")
-
-#embed remaining points 
-#emb <- predict(kpc,acdat[test,ids])
-#points(emb,col=as.integer(as.factor(acdat[test,]$ACTIVITY)))
 
 plotkpc <- function(kpc,title="") {
 
 dfg <- data.frame(rotated(kpc), Activity=acdat[train,]$ACTIVITY)
-#dfg <- as.data.frame(dfg)
-#dfg$col <- factor(dfg$col)
+
 names(dfg) <- c("x","y","Activity")
-ggplot(data= dfg, aes(x=x,y=y,col=Activity))+geom_point(size=4)+
-theme_light()+xlab("X")+ylab("Y")+ggtitle(title)
+ggplot(data= dfg, aes(x=x,y=y,shape=Activity))+
+  geom_point(size=4)+
+theme_light()+xlab("X")+
+  ylab("Y")+ggtitle(title)+
+  xlab("PC #1")+
+  ylab("PC #2")
 
 }
 
 
 sigma1 <- .05
 sigma2 <- .008
+
+sigma1 <- .1
+sigma2 <- .01
 
 kpc1 <- kpca(~.,data=acdat[train,ids],kernel="rbfdot",
             kpar=list(sigma=sigma1),features=2)

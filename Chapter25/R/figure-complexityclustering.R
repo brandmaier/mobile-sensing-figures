@@ -1,5 +1,5 @@
 library(tidyverse)
-path <- "~/Downloads/wisdm-dataset/raw/watch/accel/data_1600_accel_watch.txt"
+path <- "../data/wisdm-dataset/raw/watch/accel/data_1600_accel_watch.txt"
 dat <- readr::read_csv(path,comment=";")
 names(dat) <- c("Participant","Activity","Timestamp","X","Y","Z")
 
@@ -11,7 +11,6 @@ labels <- unique(subdat$Activity)
 
 result <- list()
 for (ac in labels) {
-#  result <- cbind(result, subdat[subdat$Activity==ac,]$X) 
   result[[ac]] <- subdat[subdat$Activity==ac,]$X
 }
 
@@ -20,15 +19,12 @@ for (ac in labels) {
 #
 
 x<-sample(c(0,1),100000,replace=TRUE)
-#x<-rep(c(0,1),100000)
 
 zipsize <- function(x) {
  tf<-tempfile()
  zf<-paste0(tempfile(),".zip")
  writeBin(x,tf)
  zip(zf,tf)
-# cat(zf)
- #file.info(tf)$size
 
  unlink(tf)
  return( file.info(zf)$size )
@@ -55,8 +51,6 @@ for (i in 1:length(result)) {
 }
 
 dd<-as.dist(dists)
-#cl<-hclust(d=as.dist(dists),method = "complete")
-#cl<-hclust(d=as.dist(dists),method = "average")
 cl<-hclust(d=as.dist(dists),method = "single")
 
 labels.clear <- c("Walking","Jogging","Stairs","Sitting",

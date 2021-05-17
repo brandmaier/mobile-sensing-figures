@@ -7,7 +7,6 @@ library(reshape2)
 library(dplyr)
 
 set.seed(124)
-#set.seed(3294)
 
 state1.name <- "Walking"
 state2.name <- "Sitting"
@@ -18,6 +17,7 @@ y <- rnorm(N)
 
 mycols <- c("darkmagenta", "turquoise")
 mycols <- c("#5270B3","#FF7052")
+mycols <- c("gray","black")
 
 true.states <- rep(state1.name,N)
 cur <- state1.name
@@ -32,14 +32,6 @@ x[which(true.states==state1.name)] <- x[which(true.states==state1.name)] + 2
 
 draws <- data.frame(Observed=x, state=true.states, time=1:N)
 
-#mod <- depmix(obs+y ~ 1, data = draws, nstates = 2, family = gaussian()) # use gaussian() for normally distributed data
-#fit.mod <- fit(mod)
-
-
-
-#est.states <- posterior(fit.mod)
-#head(est.states)
-#read.csv("~/Documents/")
 
 fit.hmm <- function(draws){
   

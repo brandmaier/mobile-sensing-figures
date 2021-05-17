@@ -1,4 +1,4 @@
-path <- "~/Downloads/wisdm-dataset/raw/watch/accel/data_1600_accel_watch.txt"
+path <- "../data/wisdm-dataset/raw/watch/accel/data_1600_accel_watch.txt"
 dat <- readr::read_csv(path,comment=";")
 names(dat) <- c("Participant","Activity","Timestamp","X","Y","Z")
 
@@ -6,14 +6,6 @@ head(dat)
 
 
 library(tidyverse)
-
-#subs <- dat %>% select("X","Timestamp","Activity")
-#subs$Timestamp
-
-
-#dat %>% group_by(Activity) %>% summarize( min=min(Timestamp))
-
-#pdcmat <- spread(subs, Activity,X) %>% select(-Timestamp)
 
 actA_x = dat$X[dat$Activity=="A"]
 actB_x = dat$X[dat$Activity=="B"]
@@ -23,12 +15,9 @@ actA_pieces = split(actA_x,ceiling(seq_along(actA_x)/100))
 actB_pieces = split(actB_x,ceiling(seq_along(actB_x)/100))
 actG_pieces = split(actG_x,ceiling(seq_along(actG_x)/100))
 
-
-#mydat <- cbind(actA_pieces)
-
-mydat <-#cbind(
+mydat <-
   cbind(do.call(cbind, actA_pieces[c(1,20,7,24,10)]), do.call(cbind, actB_pieces[c(22,12,23,19,10)]))
-  #actG_pieces[[1]])
+  
 labels <- c( rep("Walking",5),rep("Jogging",5))
 lb2 <- c(rep(1,5),rep(2,5))
 
@@ -42,12 +31,10 @@ library(pdc)
 
 
 require(TSclust)
-#result <- pdclust(pdcmat)
-#plot(result)
+
 
 par(mfrow=c(1,2))
 
-#plot(result,timeseries.as.labels = FALSE,labels = labels,xlab=NA, sub=NA)
 
 
 library(TSclust)
@@ -56,8 +43,7 @@ library(TSclust)
 dmat <- diss(t(mydat),"EUCL")
 result <- hclust(dmat)
 
-plot(result,labels = labels)
-#mdsPlot(result,labels = labels)
+plot(result,labels = labels, sub="",xlab="")
 
 
 xmdsPlot <- function (X, labels = NULL, col = "gray", groups = NULL) 
